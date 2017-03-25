@@ -216,7 +216,7 @@ public class IndexController {
 		
 		for (MedicineMasterData medData : medDataList.getMedDataList()) {
 			System.out.println("id : " + medData.getId() + " Drug Form :" + medData.getDrugForm() + " Trade Name : "
-					+ medData.getTradeName() + " Strength : " + medData.getStrength() + " Frequency : " + medData.getFrquency()
+					+ medData.getTradeName() + " Strength : " + medData.getStrength() + " Frequency : " + medData.getFrequency()
 					+ " Duration: " + medData.getDuration() + " Special Instructions: "+medData.getSpecialInstructions());
 			
 			Prescription prescription = new Prescription();
@@ -240,7 +240,7 @@ public class IndexController {
 
 	@RequestMapping(value="/fetchPrescriptions", method=RequestMethod.POST)
 	public String fetchPrescriptions(Model model, @RequestParam("patientHiddenId") String patientHiddenId){
-		
+		System.out.println("inside fetchPrescriptions for id "+patientHiddenId);
 		List<PatientInfo> patientInfo = patientInfoRepository.findById(Integer.parseInt(patientHiddenId));
 		for(PatientInfo info: patientInfo){
 			info.setPrescription(null);

@@ -63,11 +63,11 @@ public class MedicineMasterData {
 		this.strength = (strength!=null)?strength:"";
 	}
 
-	public String getFrquency() {
+	public String getFrequency() {
 		return frequency;
 	}
 
-	public void setFrquency(String frequency) {
+	public void setFrequency(String frequency) {
 		this.frequency = (frequency!=null)?frequency:"";;
 	}
 
