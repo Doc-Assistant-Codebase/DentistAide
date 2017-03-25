@@ -1,0 +1,12 @@
+.using-angular .row {
+	margin-top: 15px;
+}
+
+.using-angular .table-bordered > thead > tr > th, .using-angular .table-bordered > tbody > tr > th, .using-angular .table-bordered > tfoot > tr > th, .using-angular .table-bordered > thead > tr > td, .using-angular .table-bordered > tbody > tr > td, .using-angular .table-bordered > tfoot > tr > td {
+	width: 15%;
+}
+
+.using-angular .table thead.thead-background > tr{
+    background-color: #087;
+    color: #fff;
+}
