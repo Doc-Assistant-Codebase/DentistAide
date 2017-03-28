@@ -35,7 +35,19 @@ myApp.controller('medicineCtrl',['$scope','medicineService','$window', function(
 	};
 	
 	$scope.addMed = function(med){
-		$scope.postMedicines.push(med);
+		var selectedId = med.id;
+		var isAlreadyAdded = false;
+		for(var i=0; i < $scope.postMedicines.length; i++){
+			var addedid=$scope.postMedicines[i].id;
+			if(addedid == selectedId){
+				isAlreadyAdded = true;
+			}
+		}
+		
+		if(!isAlreadyAdded){
+			$scope.postMedicines.push(med);
+		}
+		
 	};
 	
 	$scope.printData = function(divName) {

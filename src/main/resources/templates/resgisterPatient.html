@@ -21,18 +21,31 @@
 	<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Dentist Aide</title>
-		<!-- BOOTSTRAP STYLES-->
+<!-- BOOTSTRAP STYLES-->
 <link href="/css/bootstrap.css" rel="stylesheet" />
-<!-- FONTAWESOME STYLES-->
-<link href="/css/font-awesome.css" rel="stylesheet" />
 <!-- CUSTOM STYLES-->
 <link href="/css/custom.css" rel="stylesheet" />
 <!-- GOOGLE FONTS-->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans'
 	rel='stylesheet' type='text/css' />
+<script src="/js/jquery-1.11.2.js"></script>
 
- <link href="/css/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" />
-<link href="/css/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	
+	$('#registerPatientButton').click(function(event) {
+		
+		 if (($('#firstName').val() == "") || ($('#lastName').val() == "") || ($('#mobileNumber').val() == "") || ($('#address').val() == "")){
+	            alert('Please enter data in the reqiured fields');
+	        }
+		 
+	});
+
+});
+
+</script>
 	
 	</head>
 	<body style="font-family:Segoe UI">
@@ -82,24 +95,24 @@
 					<tbody>
 						<tr>
 							<td>
-								 <input type="text" id="firstName" name="firstName" /><br /> 
+								 <input type="text" id="firstName" name="firstName"  required=''/><br /> 
 							</td>
 							<td>
-								 <input type="text" id="lastName" name="lastName" /><br /> 
+								 <input type="text" id="lastName" name="lastName"  required=''/><br /> 
 							</td>
 							<td>
-								<input type="text" id="mobileNumber" name="mobileNumber" /><br /> 
+								<input type="text" id="mobileNumber" name="mobileNumber"  required=''/><br /> 
 							</td>
 							<td> 
 								<input type="text" id="email" name="email" /><br /> 
 							</td>
 							<td> 
-								<input type="text" id="address" name="address" /><br /> 
+								<input type="text" id="address" name="address"  required=''/><br /> 
 							</td>
 						</tr>
 						<tr>
 							<td colspan="5">
-								<input type="submit" value="Register Patient" />
+								<input type="submit" id="registerPatientButton" value="Register Patient" />
 							</td>
 						</tr>
 					</tbody>

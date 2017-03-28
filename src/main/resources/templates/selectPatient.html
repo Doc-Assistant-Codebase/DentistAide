@@ -1,73 +1,121 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html ng-app="test" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Dentist Aide</title>
 <!-- BOOTSTRAP STYLES-->
 <link href="/css/bootstrap.css" rel="stylesheet" />
-<!-- FONTAWESOME STYLES-->
-<link href="/css/font-awesome.css" rel="stylesheet" />
 <!-- CUSTOM STYLES-->
 <link href="/css/custom.css" rel="stylesheet" />
 <!-- GOOGLE FONTS-->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans'
 	rel='stylesheet' type='text/css' />
-
-<link href="/jqgrid/css/custom-theme/jquery-ui-1.10.0.custom.css"
-	rel="stylesheet" />
-		<link href="/jqgrid/css/layout-jqgrid.css" rel="stylesheet"/>
-		<link href="/jqgrid/css/ui.jqgrid-bootstarp.css" rel="stylesheet"/>
-<link href="/jqgrid/css/ui.jqgrid.css" rel="stylesheet" />
-
-<link href="/jqgrid/css/jqGrid.custom.css" rel="stylesheet" />
- <link href="/css/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" />
-<link href="/css/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+<script src="/js/jquery-1.11.2.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/angular1.6.3.min.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/services/selectPatientService.js"></script>
+<script src="/js/controllers/selectPatientCtrl.js"></script>
+<style>
+			body {
+     			background: #fcfcfc ;
+			}
+			a {
+				font-size:20px;font-weight:bold;
+			}
+			
+			.selected{
+			  background:black;
+			  color:white;
+			}
+</style>
 </head>
-<body background="dentist1.jpg">
+<body class="using-angular">
+<div class="row" style="margin-top:20px;">
+	<div class="col-md-6"></div>
+	<div class="col-md-1 pull-left">
+		 <a href="/home">Home</a> 
+	</div>
+	<div class="col-md-1 pull-left">
+		 <a href="/newPatientFlow">Register</a> 
+	</div>
+	<div class="col-md-2 pull-left">
+		 <a href="/aboutUs">About Us</a> 
+	</div>
+	<div class="col-md-2"></div>
+</div>
+	<div ng-controller="selectPatientCtrl" class="container" ng-init="loadPatientDetails()">
 	<div id="wrapper">
-		<div class="navbar navbar-inverse navbar-fixed-top">
-			<div class="adjust-nav">
-				<div class="navbar-header">
-
-					<a class="navbar-brand" href="#"><i class="fa"></i>Dentisttt Aide</a>
-				</div>
-
-			</div>
-		</div>
 
 		<!-- /. NAV SIDE  -->
 		<div id="page-wrapper">
 			<div id="page-inner">
-				<div class="row">
-					<div class="col-md-12">
-						<h2>Select a Patient</h2>
-					</div>
+				<div class="row well well-sm" style="color: #428bca; font-weight:bold;">
+					
+						<div class="col-md-6">
+							<h2>Select Patient</h2>
+						</div>
+					
+						<div class="col-md-6">
+							<a href="javascript:void(0)" id="backToSearchPage" class="btn btn-info" ng-click="takeBackToHistory()">Back</a> 
+						</div>
+					
+					
 				</div>
-				<!-- /. ROW  -->
-				
-				<div class="row">
-					<div class="col-md-12">
-						<div id="usersGrid"></div>
-					</div>
-				</div>
-
 				<hr />
+								
+				<div class="row">
+				<div  style="display: none;">
+					<p id="userDetails" ng-model="patientDetails" th:inline="text">[[${retrievedPatientInfOJSON}]]</p>
+				</div>
+				</div>
+				<hr />
+				<div class="row">
+					<div class="content-to-post col-sm-12">
+					<form action="/loadPatientDetailsById" method="POST" name="myForm" ng-submit="loadPatient()">
+				
+						<table class="table table-bordered table-responsive table-striped">
+							<thead class="thead-background">
+								<tr  style="background-color:#428bca;">
+									<th>Patient Id</th>
+									<th>First Name</th>
+									<th>Last Name</th>
+									<th>Contact</th>
+									<th>Email</th>
+									<th>Address</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="patientInfo in patientDetails" ng-dblclick="takeToThisPatient(patientInfo)" ng-class="{selected: row.id === selectedRow}"> 
+									<td>{{patientInfo.id}}</td>
+									<td>{{patientInfo.firstName}}</td>
+									<td>{{patientInfo.lastName}}</td>
+									<td>{{patientInfo.mobileNumber}}</td>
+									<td>{{patientInfo.email}}</td>
+									<td>{{patientInfo.address}}</td>
+								</tr>
+							</tbody>
+						</table>
+						
+						<div id="selectedPatientDiv" style="display: none;">
+  							<input type="submit" value="Select Patient"/>
+  						</div>
+					</form>
+				</div>
+			</div>
+				
+				<hr />
+
+				<!-- /. ROW  -->
+
+			</div>
 			<!-- /. PAGE INNER  -->
 		</div>
 		<!-- /. PAGE WRAPPER  -->
 	</div>
+
 	</div>
-
-
-	<script src="/js/jquery-1.11.2.js"></script>
-	<script src="/js/jquery-ui.custom.min.js"></script>
-	<script src="/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/jqgrid/js/i18n/grid.locale-en.js"></script>
-	<script type="text/javascript" src="/jqgrid/js/jquery.jqGrid.src.js"></script>
-
-	<script src="/js/jquery.usergrid.js"></script>
-
 
 </body>
 </html>

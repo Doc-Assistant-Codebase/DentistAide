@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -187,7 +188,10 @@ public class IndexController {
 				
 			case "email":
 				return patientInfoRepository.findByEmail(searchValue.toString());
-				
+
+
+			case "id":
+				return patientInfoRepository.findById(Integer.parseInt(searchValue.toString()));
 	
 			case "mobileNumber":
 				return patientInfoRepository.findByMobileNumber(searchValue.toString());
@@ -248,5 +252,29 @@ public class IndexController {
 		model.addAttribute("prescriptionForPatientJSON", new Gson().toJson(patientInfo));
 		
 		return "prescriptionHistory";
+	}
+	
+	@RequestMapping(value="/loadPatientDetails", method=RequestMethod.POST)
+	public String loadPatientDetails(Model model, @RequestBody PatientInfo patientInfo){
+			System.out.println("Inside loadPatientDetails "+patientInfo.getId());
+			model.addAttribute("retrievedPatientInfOJSON", new Gson().toJson(patientInfo));
+		
+		return "searchAndAssignNew";
+	}
+	
+	@RequestMapping(value="/loadPatientDetailsById", method=RequestMethod.POST)
+	public String loadPatientDetailsById(Model model, @RequestParam("patientHiddenId") String patientHiddenId){
+			System.out.println("Inside loadPatientDetailsById "+patientHiddenId);
+			List<PatientInfo> retrievedPatientInfo = getPatientInformation("id", patientHiddenId);
+			
+			model.addAttribute("retrievedPatientInfo", retrievedPatientInfo);
+			
+			for(PatientInfo info: retrievedPatientInfo){
+				info.setPrescription(null);
+			}
+			model.addAttribute("retrievedPatientInfOJSON", new Gson().toJson(retrievedPatientInfo));
+			
+		
+		return "searchAndAssignNew";
 	}
 }
