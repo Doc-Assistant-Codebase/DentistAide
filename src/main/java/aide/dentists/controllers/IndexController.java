@@ -208,6 +208,11 @@ public class IndexController {
 		return "resgisterPatient";
 	}
 	
+	@GetMapping("/aboutUs")
+	public String aboutUs(){		
+		return "aboutUs";
+	}
+	
 	@RequestMapping(value = "/postSelectedData", method = RequestMethod.POST)
 	public ResponseEntity<WrapperForMedicinePatientInfo> postSelectedData(@RequestBody WrapperForMedicinePatientInfo medDataList) {
 		List<PatientInfo> patientInfo = patientInfoRepository.findById(medDataList.getPatientInfo().get(0).getId());

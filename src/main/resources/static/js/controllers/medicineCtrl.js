@@ -71,6 +71,16 @@ myApp.controller('medicineCtrl',['$scope','medicineService','$window', function(
 	};
 
 	$scope.removeItem = function (index){
+		//To remove highlighted color of recently removed med array
+		// get med object
+		var tempMed = $scope.postMedicines[index];
+		if($scope.postMedicines.length !== 0){
+			for(i=0; i < $scope.postMedicines.length; i++){	
+				if($scope.postMedicines[i].id === tempMed.id){
+					delete  $scope.postMedicines[i].isSelected;
+				}
+			}
+		}
 		$scope.postMedicines.splice(index, 1); 
 	};
 	
@@ -80,6 +90,23 @@ myApp.controller('medicineCtrl',['$scope','medicineService','$window', function(
 			id=$scope.patientDetails[0].id;
 		}
 		medicineService.getHistory(id);
+	};
+	
+	/* Function: To highlight the selected row on tab change
+	 * Params: accept medicine object to match is in print selected
+	 * Return : update med object
+	 */
+	
+	$scope.medSelected = function (med){
+		if($scope.postMedicines.length !== 0){
+			for(i=0; i < $scope.postMedicines.length; i++){	
+				if($scope.postMedicines[i].id===med.id){
+					
+					med.isSelected = true;
+				}
+			}
+		}
+		
 	};
 		
 }]);

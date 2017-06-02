@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 /**
@@ -84,7 +85,7 @@ public class PatientInfo {
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		this.firstName = StringUtils.isNotBlank(firstName)?StringUtils.lowerCase(firstName):null;
 	}
 
 	public String getLastName() {
@@ -92,7 +93,7 @@ public class PatientInfo {
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastName = StringUtils.isNotBlank(lastName)?StringUtils.lowerCase(lastName):null;;
 	}
 
 	public String getMobileNumber() {
@@ -108,7 +109,7 @@ public class PatientInfo {
 	}
 
 	public void setAddress(String address) {
-		this.address = address;
+		this.address = StringUtils.isNotBlank(address)?StringUtils.lowerCase(address):null;;
 	}
 
 	public String getEmail() {
@@ -116,7 +117,7 @@ public class PatientInfo {
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = StringUtils.isNotBlank(email)?StringUtils.lowerCase(email):null;;
 	}
 
 	@Override

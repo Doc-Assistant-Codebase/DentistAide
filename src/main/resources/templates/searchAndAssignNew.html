@@ -113,8 +113,10 @@ function loadPrescriptionHistory(){
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="med in postMedicines | unique : 'id'" ng-dblclick="removeItem($index)">
-							<td>{{med.id}}</td>
+						<tr ng-repeat="med in postMedicines | unique : 'id'" 
+						 ng-class="{'selected': med.isSelected ? true : false}"
+						 ng-dblclick="removeItem($index)">
+							<td ng-init="medSelected(med)">{{med.id}}</td>
 							<td>{{med.drugForm}}</td>
 							<td>{{med.tradeName}}</td>
 							<td>{{med.strength}}</td>
@@ -169,8 +171,9 @@ function loadPrescriptionHistory(){
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="med in medicines | filter: filterText" ng-dblclick="addMed(med)">
-							<td>{{med.id}}</td>
+						<tr ng-repeat="med in medicines | filter: filterText"
+						  ng-class="{'selected': med.isSelected ? true : false}" ng-dblclick="addMed(med)">
+							<td ng-init="medSelected(med)">{{med.id}}</td>
 							<td>{{med.drugForm}}</td>
 							<td>{{med.tradeName}}</td>
 							<td>{{med.strength}}</td>

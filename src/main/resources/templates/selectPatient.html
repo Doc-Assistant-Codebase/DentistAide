@@ -87,7 +87,8 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="patientInfo in patientDetails" ng-dblclick="takeToThisPatient(patientInfo)" ng-class="{selected: row.id === selectedRow}"> 
+								<tr ng-repeat="patientInfo in patientDetails" ng-dblclick="takeToThisPatient(patientInfo)" 
+								ng-class="{selected: row.id === selectedRow}"> 
 									<td>{{patientInfo.id}}</td>
 									<td>{{patientInfo.firstName}}</td>
 									<td>{{patientInfo.lastName}}</td>
