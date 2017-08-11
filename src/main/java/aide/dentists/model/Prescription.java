@@ -51,7 +51,8 @@ public class Prescription {
 	}
 
 
-	public Prescription(String medName, String notes, String medType, String medStrength, PatientInfo patientInfo, Date prescriptionDate, Integer prescriptionNumber) {
+	public Prescription(String medName, String notes, String medType, String medStrength, PatientInfo patientInfo, Date prescriptionDate, Integer prescriptionNumber,
+			String doctorId) {
 		super();
 		this.medName = medName;
 		this.notes = notes;
@@ -60,6 +61,7 @@ public class Prescription {
 		this.patientInfo = patientInfo;
 		this.prescriptionDate = prescriptionDate;
 		this.prescriptionNumber = prescriptionNumber;
+		this.doctorId=doctorId;
 	}
 
 
@@ -148,5 +150,17 @@ public class Prescription {
 		this.prescriptionNumber = prescriptionNumber;
 	}
 	
+
+	 @Column(name="doctor_Id")
+	 private String doctorId;
+	 
+	 public String getDoctorId() {
+		return doctorId;
+	}
+
+	public void setDoctorId(String doctorId) {
+		this.doctorId = doctorId;
+	}
+
 
 }

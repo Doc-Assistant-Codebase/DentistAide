@@ -44,7 +44,7 @@ function loadPrescriptionHistory(){
 		 <a href="/home">Home</a> 
 	</div>
 	<div class="col-md-1 pull-left">
-		 <a href="/newPatientFlow">Register</a> 
+		 <a href="/newPatientFlow">Register Patient</a> 
 	</div>
 	<div class="col-md-2 pull-left">
 		 <a href="/aboutUs">About Us</a> 
@@ -76,6 +76,12 @@ function loadPrescriptionHistory(){
 				<div class="row">
 				<div  style="display: none;">
 					<p id="userDetails" ng-model="patientDetails" th:inline="text">[[${retrievedPatientInfOJSON}]]</p>
+				</div>
+				</div>
+				
+				<div class="row">
+				<div  style="display: none;">
+					<p id="docDetails" ng-model="doctorDetails" th:inline="text">[[${doctorHiddenId}]]</p>
 				</div>
 				</div>
 				

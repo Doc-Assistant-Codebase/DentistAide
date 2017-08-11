@@ -21,6 +21,16 @@ public class WrapperForMedicinePatientInfo implements Serializable{
 	private List<MedicineMasterData> medDataList;
 
 	private String prescriptionNumber;
+	
+	private String doctorId;
+	
+	public String getDoctorId() {
+		return doctorId;
+	}
+
+	public void setDoctorId(String doctorId) {
+		this.doctorId = doctorId;
+	}
 
 	public String getPrescriptionNumber() {
 		return prescriptionNumber;
@@ -42,11 +52,12 @@ public class WrapperForMedicinePatientInfo implements Serializable{
 		
 	}
 
-	public WrapperForMedicinePatientInfo(List<PatientInfo> patientInfo, List<MedicineMasterData> medDataList, String prescriptionNumber) {
+	public WrapperForMedicinePatientInfo(List<PatientInfo> patientInfo, List<MedicineMasterData> medDataList, String prescriptionNumber, String doctorId) {
 		super();
 		this.patientInfo = patientInfo;
 		this.medDataList = medDataList;
 		this.prescriptionNumber= prescriptionNumber;
+		this.doctorId = doctorId;
 	}
 
 	@Override

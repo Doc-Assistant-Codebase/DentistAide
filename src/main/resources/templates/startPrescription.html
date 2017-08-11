@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html ng-app="test" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,6 +12,10 @@
 <link href='http://fonts.googleapis.com/css?family=Open+Sans'
 	rel='stylesheet' type='text/css' />
 <script src="/js/jquery-1.11.2.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/angular1.6.3.min.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/controllers/setDoctorDataCtrl.js"></script>
 
 
 <script type="text/javascript">
@@ -25,6 +29,8 @@ $(document).ready(function() {
 	        }
 		 
 	});
+	
+	
 
 });
 
@@ -46,21 +52,23 @@ $(document).ready(function() {
 			}
 		</style>
 </head>
-<body style="font-family:Segoe UI" >
+<body  class="using-angular" >
 <div class="row" style="margin-top:20px;">
 	<div class="col-md-6"></div>
 	<div class="col-md-1 pull-left">
 		 <a href="/home">Home</a> 
 	</div>
 	<div class="col-md-1 pull-left">
-		 <a href="/newPatientFlow">Register</a> 
+		 <a href="/newPatientFlow">Register Patient</a> 
 	</div>
 	<div class="col-md-2 pull-left">
 		 <a href="/aboutUs">About Us</a> 
 	</div>
 	<div class="col-md-2"></div>
 </div>
-<div id="wrapper"> 
+	
+<div ng-controller="setDoctorDataCtrl" class="container">
+	<div id="wrapper"> 
 	<!-- <div id="wrap">
 		<img class="bgfade" src="img/dentist1.jpg" style="position:fixed;z-index:-1;top:0;left:0;background-color:black;"/>
 	</div>
@@ -70,16 +78,21 @@ $(document).ready(function() {
 			<div id="header"></div>
 		</div>
 	</div> -->
-	
 	<br/>
 	<br/>
 	
-	<div class="container">
 	   <div class="row" >
 	   	<div class="well well-sm" style="color: #428bca; margin-top:-15px;font-weight:bold;">
 	  	<h2>Search Patient</h2>
 	  </div>
 	  </div>
+	  
+	  
+				  <div class="row" >
+	   				<div  style="display: none;">
+						<p id="docDetails" ng-model="doctorDetails" th:inline="text">[[${doctorHiddenId}]]</p>
+	  				</div>
+				</div>
 	  
 	  <form action="/searchPatient" method="POST">
 	  <table class="table table-bordered">
@@ -101,6 +114,7 @@ $(document).ready(function() {
 					</td>
 					<td> 
 						<input type="text" id="searchValue" name="searchValue" required=''/><br /> 
+						<input type="hidden" id="doctorIdValue" name="doctorIdValue" ng-value="doctorDetails" /><br /> 
 					</td>
 				</tr>
 				<tr>

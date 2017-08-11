@@ -24,6 +24,8 @@ import com.google.gson.JsonElement;
 
 import aide.dentists.model.ConsultationRecord;
 import aide.dentists.model.ConsultationRecordRepository;
+import aide.dentists.model.DoctorInfo;
+import aide.dentists.model.DoctorInfoRepository;
 import aide.dentists.model.MedicineMasterData;
 import aide.dentists.model.MedicineMasterDataRepository;
 import aide.dentists.model.PatientInfo;
@@ -53,6 +55,9 @@ public class IndexController {
 
 	@Autowired
 	ConsultationRecordRepository consultationRecordRepository;
+	
+	@Autowired
+	DoctorInfoRepository doctorInfoRepository;
 	
 	@GetMapping("/home")
 	public String home(Map<String, Object> model){
@@ -106,7 +111,8 @@ public class IndexController {
 		List<PatientInfo> patientsList = new ArrayList<PatientInfo>();
 		model.put("patientsList", patientsList);
 		
-		return "startPrescription";
+		//return "startPrescription";
+		return "signIn";
 	}
 	
 	@RequestMapping(value="addPrescription", method=RequestMethod.POST)
@@ -148,9 +154,9 @@ public class IndexController {
 		return "searchAndAssignNew";
 		
 	}
-	
+		
 	@RequestMapping(value="searchPatient", method=RequestMethod.POST)
-	public String searchPatient(Model model, @RequestParam String searchBy, @RequestParam String searchValue){
+	public String searchPatient(Model model, @RequestParam String searchBy, @RequestParam String searchValue, @RequestParam String doctorIdValue){
 		
 		if(searchBy != null){
 			List<PatientInfo> retrievedPatientInfo = getPatientInformation(searchBy, searchValue);
@@ -159,13 +165,14 @@ public class IndexController {
 				
 				return "resgisterPatient";
 			}
-			
 			model.addAttribute("retrievedPatientInfo", retrievedPatientInfo);
 			
 			for(PatientInfo info: retrievedPatientInfo){
 				info.setPrescription(null);
 			}
-			model.addAttribute("retrievedPatientInfOJSON", new Gson().toJson(retrievedPatientInfo));
+			
+			model.addAttribute("retrievedPatientInfOJSON",  new Gson().toJson(retrievedPatientInfo));
+			model.addAttribute("doctorHiddenId", doctorIdValue);
 
 			if(retrievedPatientInfo!=null && retrievedPatientInfo.size()>1){
 				return "selectPatient";
@@ -220,6 +227,8 @@ public class IndexController {
 		List<Prescription> prescriptions = new ArrayList<Prescription>();
 		Date prescriptionDate = new Date();
 		
+		String doctorId = medDataList.getDoctorId();
+		
 		ConsultationRecord consultationRecord = new ConsultationRecord(medDataList.getPatientInfo().get(0).getId(), prescriptionDate);
 		consultationRecordRepository.save(consultationRecord);
 		
@@ -236,6 +245,7 @@ public class IndexController {
 			prescription.setNotes(medData.getSpecialInstructions());
 			prescription.setPatientInfo(patientInfo.get(0));
 			prescription.setPrescriptionDate(prescriptionDate);
+			prescription.setDoctorId(doctorId);
 			prescriptions.add(prescription);
 		}
 		
@@ -268,11 +278,13 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value="/loadPatientDetailsById", method=RequestMethod.POST)
-	public String loadPatientDetailsById(Model model, @RequestParam("patientHiddenId") String patientHiddenId){
+	public String loadPatientDetailsById(Model model, @RequestParam("patientHiddenId") String patientHiddenId,
+													  @RequestParam("doctorHiddenId") String doctorHiddenId){
 			System.out.println("Inside loadPatientDetailsById "+patientHiddenId);
 			List<PatientInfo> retrievedPatientInfo = getPatientInformation("id", patientHiddenId);
 			
 			model.addAttribute("retrievedPatientInfo", retrievedPatientInfo);
+			model.addAttribute("doctorHiddenId", doctorHiddenId);
 			
 			for(PatientInfo info: retrievedPatientInfo){
 				info.setPrescription(null);
@@ -281,5 +293,41 @@ public class IndexController {
 			
 		
 		return "searchAndAssignNew";
+	}
+	
+	@RequestMapping(value="registerDoctor", method=RequestMethod.POST)
+	public String addDoctor(Model model, @ModelAttribute DoctorInfo doctorInfo){
+		doctorInfoRepository.save(doctorInfo);
+		model.addAttribute("retrievedDoctorInfoJSON", new Gson().toJson(doctorInfo));
+
+		return "startPrescription";
+		
+	}
+	
+	@RequestMapping(value="signInForDoctor", method=RequestMethod.POST)
+	public String signInForDoctor(Model model, @RequestParam String searchValueEmail, @RequestParam String searchValuePwd){
+		model.addAttribute("signInError", "");
+		List<DoctorInfo> retrievedDoctorInfo = null;
+		if(searchValueEmail != null){
+			retrievedDoctorInfo = doctorInfoRepository.findByEmail(searchValueEmail.toString());
+
+			if(retrievedDoctorInfo==null ||  (retrievedDoctorInfo!=null && retrievedDoctorInfo.isEmpty())){
+				
+				return "resgisterDoctor";
+			}
+			
+			
+			retrievedDoctorInfo = doctorInfoRepository.findByEmailAndPassword(searchValueEmail.toString(), searchValuePwd.toString());
+			
+			if(retrievedDoctorInfo==null ||  (retrievedDoctorInfo!=null && retrievedDoctorInfo.isEmpty())){
+				model.addAttribute("signInError", "Entered Username or Password is wrong");
+				return "signIn";
+			}
+
+			model.addAttribute("doctorHiddenId", retrievedDoctorInfo.get(0).getId());
+			
+		}
+		
+		return "startPrescription";
 	}
 }

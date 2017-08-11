@@ -48,7 +48,7 @@ public class PatientInfo {
 	 @Column(name="billNumber")
 	 private String billNumber;
 
-	 public String getBillNumber() {
+	public String getBillNumber() {
 		return billNumber;
 	}
 

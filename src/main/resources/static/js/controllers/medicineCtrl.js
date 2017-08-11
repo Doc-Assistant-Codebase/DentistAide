@@ -11,10 +11,12 @@ myApp.controller('medicineCtrl',['$scope','medicineService','$window', function(
 	$scope.patientDetails = [];
 	
 	$scope.postMedicines = [];
+	$scope.doctorDetails = document.getElementById('docDetails').innerHTML;	
 	
 	medicineService.getMedicines($scope.url1).then(function (response) {
-		$scope.patientDetails = $.parseJSON(document.getElementById('userDetails').innerHTML);			
-		
+		$scope.patientDetails = $.parseJSON(document.getElementById('userDetails').innerHTML);	
+		$scope.signInError = $.parseJSON(document.getElementById('signInError').innerHTML);	
+				
 		var today = new Date();
 		var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 		var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -63,7 +65,7 @@ myApp.controller('medicineCtrl',['$scope','medicineService','$window', function(
 	}; 
 	
 	$scope.sendData = function (content){
-		var finalJson = '{"patientInfo":'+document.getElementById('userDetails').innerHTML+',"medDataList":'+JSON.stringify($scope.postMedicines)+'}';
+		var finalJson = '{"patientInfo":'+JSON.stringify($scope.patientDetails)+',"medDataList":'+JSON.stringify($scope.postMedicines)+',"doctorId":'+$scope.doctorDetails+'}';
 		medicineService.sendMedicines(finalJson).then( function(status){
 			$scope.postMedicines = [];
         });
@@ -108,5 +110,6 @@ myApp.controller('medicineCtrl',['$scope','medicineService','$window', function(
 		}
 		
 	};
+	
 		
 }]);

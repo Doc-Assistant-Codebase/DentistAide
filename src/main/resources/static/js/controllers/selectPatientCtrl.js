@@ -3,11 +3,14 @@ myApp.controller('selectPatientCtrl',['$scope','selectPatientService', function(
 	$scope.patientIdSelected = "";
 	$scope.patientDetails = [];
 	$scope.selectedRow = null;
-	 
+
+	$scope.doctorDetails = document.getElementById('docDetails').innerHTML;	
+	
 	$scope.loadPatientDetails = function(){
 		
-		$scope.patientDetails = $.parseJSON(document.getElementById('userDetails').innerHTML);			
+		$scope.patientDetails = $.parseJSON(document.getElementById('userDetails').innerHTML);		
 		
+
 	};
 	
 	$scope.takeToThisPatient = function(patientInfo){
@@ -25,8 +28,8 @@ myApp.controller('selectPatientCtrl',['$scope','selectPatientService', function(
 	};
 		
 	$scope.loadPatient = function(){
-		document.myForm.action='/loadPatientDetailsById?patientHiddenId='+$scope.patientIdSelected;
-		selectPatientService.takeToSelectedPatient($scope.patientIdSelected);
+		document.myForm.action='/loadPatientDetailsById?patientHiddenId='+$scope.patientIdSelected+'&doctorHiddenId='+$scope.doctorDetails;
+		selectPatientService.takeToSelectedPatient($scope.patientIdSelected, $scope.doctorDetails);
 	};
 		
 }]);
